@@ -1,0 +1,11 @@
+---
+- hosts: ip
+  become: yes
+  task: 
+  - name: update package
+    apt:
+      update_cache: yes
+  - name: install apache
+    apt:
+      name: apache2
+      state: present 
