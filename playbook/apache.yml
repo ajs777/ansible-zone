@@ -1,5 +1,5 @@
 ---
-- hosts: ip
+- Hosts: ip
   become: yes
   task: 
   - name: update package
