@@ -1,7 +1,7 @@
 ---
-- Hosts: ip
+- hosts: ip
   become: yes
-  task: 
+  tasks: 
   - name: update package
     apt:
       update_cache: true
