@@ -1,5 +1,5 @@
 ---
-- hosts: ip
+- hosts: appserver
   become: yes
   tasks: 
   - name: update package
@@ -8,4 +8,13 @@
   - name: install apache
     apt:
       name: apache2
-      state: present 
+      state: present
+  - name: copy content to webserver
+    copy:
+    dest: /var/www/html/index.html
+    content: hi ajay 
+  - name: restart apache2
+    service: 
+      name: apache2
+      state: restarted 
+   
