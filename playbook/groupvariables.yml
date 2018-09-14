@@ -1,0 +1,35 @@
+---
+- hosts: webserver
+  become: yes
+  tasks:
+  - name: update packages
+    apt:
+      update_cache: yes
+    when: ansible_os_family == "Debian"  
+  - name: install apache2 for Debian
+    apt:
+      name: "{{ ajay }}"
+      state: present
+    notify:
+    - Restart
+    when: ansible_os_family == "Debian"
+  - name: insatll HTTPD for RedHat
+    yum:
+      name: "{{ ajay }}"
+      state: present
+    notify:
+    - Restart
+    when: ansible_os_family == "RedHat"
+  - name: backup homepage
+    command: cp -n {{ homepage }} {{ backuppath}}
+  - name: create homepage
+    copy:
+      dest: "{{ homepage }}"
+      content: <h1> god will help me </h1>
+    notify:
+    - Restart
+  handlers:
+  - name: Restart
+    service:
+      name: "{{ ajay }}"
+      state: restarted

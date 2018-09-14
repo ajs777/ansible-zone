@@ -1,0 +1,19 @@
+---
+- hosts: appserver
+  become: yes
+  tasks: 
+  - name: update packages
+    apt:
+     update_cache: yes
+  - name: install tomcat7
+    apt:
+     name: tomcat7
+     state: present
+  when: ansible_os_family == "Debian"
+  notify:
+  - restart apache2
+  handlers:
+    -name: restart apache2
+    service:
+      name: apache2
+      state: restarted

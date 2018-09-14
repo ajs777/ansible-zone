@@ -1,0 +1,35 @@
+---
+- hosts: appserver
+  become: yes
+  tasks:  
+  - name: install apache2 for centos
+    yum:
+      name: apache2
+      state: present
+    notify:
+    - restart apache2
+    when: ansible_os_family == "RedHat"
+  - name: update packages for debian
+    apt:
+      update_cache: yes
+    when: ansible_os_family == "Debian"  
+  - name: install HTTPD for debian
+    apt:
+      name: HTTPD 
+      state: present
+    notify:
+    - restart HTTPD 
+    when: ansible_os_family == "Debian"
+  - name: webpage creation
+    copy:
+      dest: /var/www/html/index.html
+      content: <H1> BY GOD GRACE <H1>
+  handlers:
+  - name: restart apache2
+    service: 
+      name: apache2
+      state: restarted
+  - name: restart HTTPD
+    service: 
+      name: HTTPD
+      state: restarted   
